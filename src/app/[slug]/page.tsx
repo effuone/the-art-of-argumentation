@@ -51,7 +51,7 @@ export default async function FallacyDetailsPage({
   // Находим связанные ошибки той же категории
   const relatedFallacies = fallacies
     .filter((f) => f.category === fallacy.category && f.slug !== fallacy.slug)
-    .slice(0, 2);
+    .slice(0, 4);
 
   // Prev/next навигация
   const fallacyIndex = fallacies.findIndex((f) => f.slug === fallacy.slug);
@@ -243,23 +243,65 @@ export default async function FallacyDetailsPage({
                     Современные примеры
                   </h3>
 
-                  <div className='space-y-4'>
-                    <div className='bg-slate-50 dark:bg-slate-900 rounded-lg p-4'>
-                      <p className='font-medium mb-2'>В политике:</p>
-                      <p className='text-gray-700 dark:text-gray-300'>
-                        "Этот закон не может быть хорошим, ведь его предложил
-                        политик X, которому мы не можем доверять."
-                      </p>
-                    </div>
+                  {fallacy.modernExamples &&
+                  fallacy.modernExamples.length > 0 ? (
+                    <div className='space-y-6'>
+                      {fallacy.modernExamples.map((example, index) => (
+                        <div
+                          key={index}
+                          className='mb-6'
+                        >
+                          <div className='bg-slate-50 dark:bg-slate-900 rounded-lg p-4 mb-4'>
+                            <h4 className='font-medium text-lg mb-2'>
+                              {example.title}
+                            </h4>
 
-                    <div className='bg-slate-50 dark:bg-slate-900 rounded-lg p-4'>
-                      <p className='font-medium mb-2'>В социальных сетях:</p>
-                      <p className='text-gray-700 dark:text-gray-300'>
-                        "Ваше мнение не имеет значения, ведь у вас мало
-                        подписчиков."
-                      </p>
+                            <p className='font-medium mb-2'>Контекст:</p>
+                            <p className='text-gray-700 dark:text-gray-300 mb-4'>
+                              {example.context}
+                            </p>
+
+                            {example.quote && (
+                              <>
+                                <p className='font-medium mb-2'>Цитата:</p>
+                                <blockquote className='border-l-4 pl-4 py-2 italic text-gray-600 dark:text-gray-400'>
+                                  "
+                                  {typeof example.quote === 'string'
+                                    ? example.quote
+                                    : (example.quote as string[]).join(', ')}
+                                  "
+                                </blockquote>
+                              </>
+                            )}
+                          </div>
+
+                          <p className='font-medium mb-2'>
+                            Почему это {fallacy.name}?
+                          </p>
+                          <p className='text-gray-700 dark:text-gray-300 mb-4'>
+                            {example.explanation}
+                          </p>
+
+                          {example.result && (
+                            <>
+                              <p className='font-medium mb-2'>Результат:</p>
+                              <p className='text-gray-700 dark:text-gray-300'>
+                                {example.result}
+                              </p>
+                            </>
+                          )}
+
+                          {index < fallacy.modernExamples.length - 1 && (
+                            <Separator className='my-6' />
+                          )}
+                        </div>
+                      ))}
                     </div>
-                  </div>
+                  ) : (
+                    <div className='text-gray-500 dark:text-gray-400 italic text-center p-4'>
+                      Современные примеры отсутствуют
+                    </div>
+                  )}
                 </div>
               </CardContent>
             </Card>

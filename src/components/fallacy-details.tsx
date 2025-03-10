@@ -108,9 +108,7 @@ const FallacyDetails: FC<FallacyDetailsProps> = ({
           >
             Закрыть
           </Button>
-          <Link
-            href={`/${fallacy.latinName.toLowerCase().replace(/\s+/g, '-')}`}
-          >
+          <Link href={`/${fallacy.slug}`}>
             <Button
               size='sm'
               className='gap-1.5 items-center text-xs sm:text-sm h-8 sm:h-9'
