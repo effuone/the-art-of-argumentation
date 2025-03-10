@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Search } from 'lucide-react';
+import { GithubIcon, Search, Youtube } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Fallacy } from '@/lib/types';
@@ -89,6 +89,19 @@ export default function LogicalFallacyMap() {
                 распространенных логических ошибок в повседневных дискуссиях,
                 политических дебатах и критическом мышлении.
               </p>
+              <div className='flex items-center mt-4'>
+                <a
+                  href='https://www.youtube.com/watch?v=IAQ_K3RE0wg&t=989s'
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  className='flex items-center text-blue-600 hover:text-blue-800 mr-6'
+                >
+                  <Youtube className='w-5 h-5 mr-1' />
+                  <span>
+                    Смотреть видео с подробным разбором 67 логических ошибок
+                  </span>
+                </a>
+              </div>
             </div>
             <div className='md:w-1/3 flex justify-center md:justify-end'>
               <Badge className='h-fit text-lg py-2 px-4 bg-blue-600 hover:bg-blue-600'>
@@ -125,6 +138,42 @@ export default function LogicalFallacyMap() {
               </p>
             </div>
           )}
+        </div>
+
+        {/* Информация об авторах */}
+        <div className='mt-8 pt-6 border-t border-gray-200 dark:border-gray-800'>
+          <div className='flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4'>
+            <div>
+              <p className='text-gray-600 dark:text-gray-400'>
+                Автор идеи:{' '}
+                <span className='font-medium'>Абдулла Абдуллаев</span> (канал{' '}
+                <a
+                  href='https://www.youtube.com/@debateland'
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  className='text-blue-600 hover:underline'
+                >
+                  Дебатляндия
+                </a>
+                )
+              </p>
+              <p className='text-gray-600 dark:text-gray-400 mt-1'>
+                Разработчик:{' '}
+                <a
+                  href='https://github.com/alibackend'
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  className='text-blue-600 hover:underline flex items-center inline-flex'
+                >
+                  <GithubIcon className='h-4 w-4 mr-1' /> @effuone
+                </a>
+              </p>
+            </div>
+
+            <div className='text-gray-500 dark:text-gray-400 text-sm'>
+              &copy; {new Date().getFullYear()} Все права защищены
+            </div>
+          </div>
         </div>
       </main>
 
