@@ -3,7 +3,6 @@ import Link from 'next/link';
 import {
   ArrowLeft,
   BookOpen,
-  Share2,
   Shield,
   AlertTriangle,
   Info,
@@ -17,10 +16,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Separator } from '@/components/ui/separator';
 import { fallacies } from '@/data/fallacies';
 import { fallacyCategories } from '@/data/fallacy-categories';
-
-interface Params {
-  slug: string;
-}
+import ShareButton from '@/components/share-button';
 
 export default async function FallacyDetailsPage({
   params,
@@ -32,10 +28,12 @@ export default async function FallacyDetailsPage({
 
   if (!fallacy) {
     return (
-      <div className='min-h-screen flex items-center justify-center'>
+      <div className='min-h-screen flex items-center justify-center bg-background'>
         <div className='text-center'>
-          <h1 className='text-2xl font-bold mb-2'>Ошибка не найдена</h1>
-          <p className='text-gray-500 mb-4'>
+          <h1 className='text-2xl font-bold mb-2 text-foreground'>
+            Ошибка не найдена
+          </h1>
+          <p className='text-muted-foreground mb-4'>
             Информация о данной логической ошибке отсутствует.
           </p>
           <Link href='/'>
@@ -60,14 +58,14 @@ export default async function FallacyDetailsPage({
     fallacyIndex < fallacies.length - 1 ? fallacies[fallacyIndex + 1] : null;
 
   return (
-    <div className='min-h-screen bg-white dark:bg-gray-950'>
+    <div className='min-h-screen bg-background text-foreground'>
       {/* Навигационная панель */}
-      <header className='bg-white dark:bg-gray-900 border-b'>
+      <header className='bg-card border-b border-border'>
         <div className='max-w-4xl mx-auto px-4 py-4 sm:px-6 lg:px-8'>
           <div className='flex items-center justify-between'>
             <Link
               href='/'
-              className='flex items-center text-gray-500 hover:text-gray-700'
+              className='flex items-center text-muted-foreground hover:text-foreground'
             >
               <ArrowLeft className='h-4 w-4 mr-2' />
               <span>К списку логических ошибок</span>
@@ -84,37 +82,34 @@ export default async function FallacyDetailsPage({
           <div className='flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6'>
             <div>
               <div
-                className='inline-block px-3 py-1 rounded-full text-white mb-2'
+                className='inline-block px-3 py-1 rounded-full text-primary-foreground mb-2'
                 style={{ backgroundColor: category?.color }}
               >
                 {category?.name}
               </div>
-              <h1 className='text-3xl font-bold flex items-center gap-2 mb-2'>
+              <h1 className='text-3xl font-bold flex items-center gap-2 mb-2 text-foreground'>
                 <span className='text-4xl'>{fallacy.icon}</span>
                 {fallacy.name}
               </h1>
-              <p className='text-gray-500 dark:text-gray-400 italic mb-4'>
+              <p className='text-muted-foreground italic mb-4'>
                 {fallacy.latinName}
               </p>
             </div>
-            <Button
-              variant='outline'
-              className='flex items-center'
-            >
-              <Share2 className='h-4 w-4 mr-2' />
-              Поделиться
-            </Button>
+            <ShareButton
+              fallacyName={fallacy.name}
+              slug={fallacy.slug}
+            />
           </div>
 
           <Card className='mb-8'>
             <CardContent className='p-6'>
               <div className='flex flex-col gap-6'>
                 <div>
-                  <h2 className='text-xl font-semibold flex items-center gap-2 mb-3'>
+                  <h2 className='text-xl font-semibold flex items-center gap-2 mb-3 text-foreground'>
                     <Info className='h-5 w-5 text-blue-500' />
                     Что это такое?
                   </h2>
-                  <p className='text-gray-700 dark:text-gray-300 leading-relaxed'>
+                  <p className='text-card-foreground leading-relaxed'>
                     {fallacy.detailedDescription || fallacy.description}
                   </p>
                 </div>
@@ -122,11 +117,11 @@ export default async function FallacyDetailsPage({
                 <Separator />
 
                 <div>
-                  <h2 className='text-xl font-semibold flex items-center gap-2 mb-3'>
+                  <h2 className='text-xl font-semibold flex items-center gap-2 mb-3 text-foreground'>
                     <AlertTriangle className='h-5 w-5 text-amber-500' />
                     Почему это опасно?
                   </h2>
-                  <p className='text-gray-700 dark:text-gray-300 leading-relaxed'>
+                  <p className='text-card-foreground leading-relaxed'>
                     {fallacy.danger}
                   </p>
                 </div>
@@ -152,7 +147,7 @@ export default async function FallacyDetailsPage({
                 {fallacy.historicalExamples &&
                 fallacy.historicalExamples.length > 0 ? (
                   <>
-                    <h3 className='text-lg font-medium mb-4'>
+                    <h3 className='text-lg font-medium mb-4 text-foreground'>
                       Исторические примеры
                     </h3>
 
@@ -161,20 +156,24 @@ export default async function FallacyDetailsPage({
                         key={index}
                         className='mb-6'
                       >
-                        <div className='bg-slate-50 dark:bg-slate-900 rounded-lg p-4 mb-4'>
-                          <h4 className='font-medium text-lg mb-2'>
+                        <div className='bg-secondary dark:bg-secondary rounded-lg p-4 mb-4'>
+                          <h4 className='font-medium text-lg mb-2 text-secondary-foreground'>
                             {example.title}
                           </h4>
 
-                          <p className='font-medium mb-2'>Контекст:</p>
-                          <p className='text-gray-700 dark:text-gray-300 mb-4'>
+                          <p className='font-medium mb-2 text-secondary-foreground'>
+                            Контекст:
+                          </p>
+                          <p className='text-secondary-foreground mb-4'>
                             {example.context}
                           </p>
 
                           {example.quote && (
                             <>
-                              <p className='font-medium mb-2'>Цитата:</p>
-                              <blockquote className='border-l-4 pl-4 py-2 italic text-gray-600 dark:text-gray-400'>
+                              <p className='font-medium mb-2 text-secondary-foreground'>
+                                Цитата:
+                              </p>
+                              <blockquote className='border-l-4 pl-4 py-2 italic text-secondary-foreground/80'>
                                 "
                                 {typeof example.quote === 'string'
                                   ? example.quote
@@ -185,17 +184,19 @@ export default async function FallacyDetailsPage({
                           )}
                         </div>
 
-                        <p className='font-medium mb-2'>
+                        <p className='font-medium mb-2 text-foreground'>
                           Почему это {fallacy.name}?
                         </p>
-                        <p className='text-gray-700 dark:text-gray-300 mb-4'>
+                        <p className='text-card-foreground mb-4'>
                           {example.explanation}
                         </p>
 
                         {example.result && (
                           <>
-                            <p className='font-medium mb-2'>Результат:</p>
-                            <p className='text-gray-700 dark:text-gray-300'>
+                            <p className='font-medium mb-2 text-foreground'>
+                              Результат:
+                            </p>
+                            <p className='text-card-foreground'>
                               {example.result}
                             </p>
                           </>
@@ -210,23 +211,29 @@ export default async function FallacyDetailsPage({
                   </>
                 ) : (
                   <div className='mb-6'>
-                    <h3 className='text-lg font-medium mb-4'>
+                    <h3 className='text-lg font-medium mb-4 text-foreground'>
                       Исторический пример
                     </h3>
-                    <div className='bg-slate-50 dark:bg-slate-900 rounded-lg p-4 mb-4'>
-                      <p className='font-medium mb-2'>Контекст:</p>
-                      <p className='text-gray-700 dark:text-gray-300 mb-4'>
+                    <div className='bg-secondary dark:bg-secondary rounded-lg p-4 mb-4'>
+                      <p className='font-medium mb-2 text-secondary-foreground'>
+                        Контекст:
+                      </p>
+                      <p className='text-secondary-foreground mb-4'>
                         {fallacy.context}
                       </p>
 
-                      <p className='font-medium mb-2'>Цитата:</p>
-                      <blockquote className='border-l-4 pl-4 py-2 italic text-gray-600 dark:text-gray-400'>
+                      <p className='font-medium mb-2 text-secondary-foreground'>
+                        Цитата:
+                      </p>
+                      <blockquote className='border-l-4 pl-4 py-2 italic text-secondary-foreground/80'>
                         "{fallacy.example}"
                       </blockquote>
                     </div>
 
-                    <p className='font-medium mb-2'>Анализ ошибки:</p>
-                    <p className='text-gray-700 dark:text-gray-300'>
+                    <p className='font-medium mb-2 text-foreground'>
+                      Анализ ошибки:
+                    </p>
+                    <p className='text-card-foreground'>
                       Этот случай является классическим примером ошибки "
                       {fallacy.name}". Вместо того, чтобы обсуждать по существу
                       аргументы оппонента, используется логически некорректный
@@ -239,7 +246,7 @@ export default async function FallacyDetailsPage({
                 <Separator className='my-6' />
 
                 <div>
-                  <h3 className='text-lg font-medium mb-4'>
+                  <h3 className='text-lg font-medium mb-4 text-foreground'>
                     Современные примеры
                   </h3>
 
@@ -251,20 +258,24 @@ export default async function FallacyDetailsPage({
                           key={index}
                           className='mb-6'
                         >
-                          <div className='bg-slate-50 dark:bg-slate-900 rounded-lg p-4 mb-4'>
-                            <h4 className='font-medium text-lg mb-2'>
+                          <div className='bg-secondary dark:bg-secondary rounded-lg p-4 mb-4'>
+                            <h4 className='font-medium text-lg mb-2 text-secondary-foreground'>
                               {example.title}
                             </h4>
 
-                            <p className='font-medium mb-2'>Контекст:</p>
-                            <p className='text-gray-700 dark:text-gray-300 mb-4'>
+                            <p className='font-medium mb-2 text-secondary-foreground'>
+                              Контекст:
+                            </p>
+                            <p className='text-secondary-foreground mb-4'>
                               {example.context}
                             </p>
 
                             {example.quote && (
                               <>
-                                <p className='font-medium mb-2'>Цитата:</p>
-                                <blockquote className='border-l-4 pl-4 py-2 italic text-gray-600 dark:text-gray-400'>
+                                <p className='font-medium mb-2 text-secondary-foreground'>
+                                  Цитата:
+                                </p>
+                                <blockquote className='border-l-4 pl-4 py-2 italic text-secondary-foreground/80'>
                                   "
                                   {typeof example.quote === 'string'
                                     ? example.quote
@@ -275,17 +286,19 @@ export default async function FallacyDetailsPage({
                             )}
                           </div>
 
-                          <p className='font-medium mb-2'>
+                          <p className='font-medium mb-2 text-foreground'>
                             Почему это {fallacy.name}?
                           </p>
-                          <p className='text-gray-700 dark:text-gray-300 mb-4'>
+                          <p className='text-card-foreground mb-4'>
                             {example.explanation}
                           </p>
 
                           {example.result && (
                             <>
-                              <p className='font-medium mb-2'>Результат:</p>
-                              <p className='text-gray-700 dark:text-gray-300'>
+                              <p className='font-medium mb-2 text-foreground'>
+                                Результат:
+                              </p>
+                              <p className='text-card-foreground'>
                                 {example.result}
                               </p>
                             </>
@@ -298,7 +311,7 @@ export default async function FallacyDetailsPage({
                       ))}
                     </div>
                   ) : (
-                    <div className='text-gray-500 dark:text-gray-400 italic text-center p-4'>
+                    <div className='text-muted-foreground italic text-center p-4'>
                       Современные примеры отсутствуют
                     </div>
                   )}
@@ -310,12 +323,12 @@ export default async function FallacyDetailsPage({
           <TabsContent value='recognize'>
             <Card>
               <CardContent className='p-6'>
-                <h3 className='text-lg font-medium mb-4'>
+                <h3 className='text-lg font-medium mb-4 text-foreground'>
                   Как отличить эту ошибку?
                 </h3>
 
                 <div className='mb-6'>
-                  <p className='mb-4'>
+                  <p className='mb-4 text-card-foreground'>
                     Распознавание логической ошибки "{fallacy.name}" требует
                     внимательного анализа аргументации. Вот ключевые признаки,
                     по которым вы можете её определить:
@@ -325,12 +338,12 @@ export default async function FallacyDetailsPage({
                     {fallacy.recognitionSteps.map((step, idx) => (
                       <li
                         key={idx}
-                        className='flex items-start gap-3 bg-slate-50 dark:bg-slate-900 p-3 rounded-md'
+                        className='flex items-start gap-3 bg-secondary dark:bg-secondary p-3 rounded-md'
                       >
-                        <div className='bg-green-100 text-green-800 rounded-full h-6 w-6 flex items-center justify-center flex-shrink-0 mt-0.5'>
+                        <div className='bg-primary/20 text-primary rounded-full h-6 w-6 flex items-center justify-center flex-shrink-0 mt-0.5'>
                           {idx + 1}
                         </div>
-                        <p>{step}</p>
+                        <p className='text-secondary-foreground'>{step}</p>
                       </li>
                     ))}
                   </ul>
@@ -338,13 +351,13 @@ export default async function FallacyDetailsPage({
 
                 {fallacy.howToDistinguish && (
                   <div className='mt-6'>
-                    <h3 className='text-lg font-medium mb-4'>
+                    <h3 className='text-lg font-medium mb-4 text-foreground'>
                       Отличие от правильной аргументации
                     </h3>
 
                     <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-                      <div className='bg-red-50 dark:bg-red-900/20 p-4 rounded-lg'>
-                        <p className='font-medium text-red-700 dark:text-red-400 mb-2 flex items-center gap-2'>
+                      <div className='bg-destructive/10 p-4 rounded-lg'>
+                        <p className='font-medium text-destructive mb-2 flex items-center gap-2'>
                           <XCircle className='h-4 w-4' />
                           Некорректно:
                         </p>
@@ -353,7 +366,7 @@ export default async function FallacyDetailsPage({
                             (example, idx) => (
                               <li
                                 key={idx}
-                                className='text-gray-700 dark:text-gray-300'
+                                className='text-card-foreground'
                               >
                                 "{example}"
                               </li>
@@ -362,8 +375,8 @@ export default async function FallacyDetailsPage({
                         </ul>
                       </div>
 
-                      <div className='bg-green-50 dark:bg-green-900/20 p-4 rounded-lg'>
-                        <p className='font-medium text-green-700 dark:text-green-400 mb-2 flex items-center gap-2'>
+                      <div className='bg-primary/10 p-4 rounded-lg'>
+                        <p className='font-medium text-primary mb-2 flex items-center gap-2'>
                           <CheckCircle className='h-4 w-4' />
                           Корректно:
                         </p>
@@ -372,7 +385,7 @@ export default async function FallacyDetailsPage({
                             (example, idx) => (
                               <li
                                 key={idx}
-                                className='text-gray-700 dark:text-gray-300'
+                                className='text-card-foreground'
                               >
                                 "{example}"
                               </li>
@@ -383,11 +396,11 @@ export default async function FallacyDetailsPage({
                     </div>
 
                     {fallacy.howToDistinguish.exceptions && (
-                      <div className='mt-4 bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg'>
-                        <p className='font-medium text-blue-700 dark:text-blue-400 mb-2'>
+                      <div className='mt-4 bg-accent/20 p-4 rounded-lg'>
+                        <p className='font-medium text-accent-foreground mb-2'>
                           Исключения:
                         </p>
-                        <p className='text-gray-700 dark:text-gray-300'>
+                        <p className='text-card-foreground'>
                           {fallacy.howToDistinguish.exceptions}
                         </p>
                       </div>
@@ -401,12 +414,12 @@ export default async function FallacyDetailsPage({
           <TabsContent value='protect'>
             <Card>
               <CardContent className='p-6'>
-                <h3 className='text-lg font-medium mb-4'>
+                <h3 className='text-lg font-medium mb-4 text-foreground'>
                   Как защититься от этой ошибки?
                 </h3>
 
                 <div className='mb-6'>
-                  <p className='mb-4'>
+                  <p className='mb-4 text-card-foreground'>
                     Если вы столкнулись с ошибкой "{fallacy.name}" в дискуссии,
                     вот несколько стратегий, которые помогут вам эффективно на
                     неё отреагировать:
@@ -417,29 +430,29 @@ export default async function FallacyDetailsPage({
                       {fallacy.defenseStrategies.map((strategy, idx) => (
                         <div
                           key={idx}
-                          className='bg-slate-50 dark:bg-slate-900 rounded-lg p-4'
+                          className='bg-secondary dark:bg-secondary rounded-lg p-4'
                         >
-                          <p className='font-medium mb-2 flex items-center gap-2'>
-                            <Shield className='h-4 w-4 text-green-500' />
+                          <p className='font-medium mb-2 flex items-center gap-2 text-secondary-foreground'>
+                            <Shield className='h-4 w-4 text-primary' />
                             {strategy.title}
                           </p>
-                          <p className='text-gray-700 dark:text-gray-300 mb-2'>
+                          <p className='text-secondary-foreground mb-2'>
                             {strategy.explanation}
                           </p>
                           <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-                            <div className='bg-red-50 dark:bg-red-900/20 p-3 rounded'>
-                              <p className='text-xs text-red-700 dark:text-red-400 mb-1'>
+                            <div className='bg-destructive/10 p-3 rounded'>
+                              <p className='text-xs text-destructive mb-1'>
                                 ❌ Некорректно:
                               </p>
-                              <p className='text-sm italic'>
+                              <p className='text-sm italic text-card-foreground'>
                                 "{strategy.incorrectExample}"
                               </p>
                             </div>
-                            <div className='bg-green-50 dark:bg-green-900/20 p-3 rounded'>
-                              <p className='text-xs text-green-700 dark:text-green-400 mb-1'>
+                            <div className='bg-primary/10 p-3 rounded'>
+                              <p className='text-xs text-primary mb-1'>
                                 ✅ Корректно:
                               </p>
-                              <p className='text-sm italic'>
+                              <p className='text-sm italic text-card-foreground'>
                                 "{strategy.correctExample}"
                               </p>
                             </div>
@@ -456,7 +469,7 @@ export default async function FallacyDetailsPage({
 
         {/* Связанные логические ошибки */}
         <div className='mb-8'>
-          <h2 className='text-xl font-semibold mb-4'>
+          <h2 className='text-xl font-semibold mb-4 text-foreground'>
             Связанные логические ошибки
           </h2>
 
@@ -469,14 +482,16 @@ export default async function FallacyDetailsPage({
                 <Card className='hover:shadow-md transition-shadow cursor-pointer'>
                   <CardContent className='p-4 flex items-center gap-3'>
                     <div
-                      className='h-10 w-10 rounded-full flex items-center justify-center text-white'
+                      className='h-10 w-10 rounded-full flex items-center justify-center text-primary-foreground'
                       style={{ backgroundColor: category?.color }}
                     >
                       {relatedFallacy.icon}
                     </div>
                     <div>
-                      <h3 className='font-medium'>{relatedFallacy.name}</h3>
-                      <p className='text-sm text-gray-500'>
+                      <h3 className='font-medium text-foreground'>
+                        {relatedFallacy.name}
+                      </h3>
+                      <p className='text-sm text-muted-foreground'>
                         {relatedFallacy.shortDescription}
                       </p>
                     </div>
@@ -489,7 +504,7 @@ export default async function FallacyDetailsPage({
       </main>
 
       {/* Нижняя навигация */}
-      <div className='bg-white dark:bg-gray-900 border-t py-4'>
+      <div className='bg-card border-t border-border py-4'>
         <div className='max-w-4xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='flex justify-between items-center'>
             {prevFallacy ? (

@@ -37,33 +37,35 @@ const FallacyDetails: FC<FallacyDetailsProps> = ({
         <DialogHeader className='pb-3 flex flex-col'>
           <div className='mb-2'>
             <span
-              className='px-2 py-0.5 text-xs sm:text-sm rounded-full text-white'
+              className='px-2 py-0.5 text-xs sm:text-sm rounded-full text-primary-foreground'
               style={{ backgroundColor: category?.color }}
             >
               {category?.name}
             </span>
           </div>
-          <DialogTitle className='text-xl sm:text-2xl flex items-center gap-2'>
+          <DialogTitle className='text-xl sm:text-2xl flex items-center gap-2 text-foreground'>
             <span className='text-2xl sm:text-3xl'>{fallacy.icon}</span>
             {fallacy.name}{' '}
-            <span className='text-gray-500 text-sm sm:text-base font-normal'>
+            <span className='text-muted-foreground text-sm sm:text-base font-normal'>
               ({fallacy.latinName})
             </span>
           </DialogTitle>
         </DialogHeader>
 
         {/* Основное описание - адаптивное */}
-        <div className='bg-slate-50 dark:bg-slate-900 rounded-md p-3 sm:p-4 text-sm sm:text-base mb-3 sm:mb-4'>
+        <div className='bg-secondary rounded-md p-3 sm:p-4 text-sm sm:text-base mb-3 sm:mb-4'>
           <div className='mb-3'>
-            <p className='text-gray-800 dark:text-gray-200'>
+            <p className='text-secondary-foreground'>
               {fallacy.shortDescription || fallacy.description}
             </p>
           </div>
 
           {/* Пример */}
-          <div className='border-l-2 sm:border-l-4 border-gray-300 pl-2 sm:pl-3 py-1 italic text-gray-600 dark:text-gray-400 text-xs sm:text-sm'>
+          <div className='border-l-2 sm:border-l-4 border-border pl-2 sm:pl-3 py-1 italic text-secondary-foreground/70 text-xs sm:text-sm'>
             <p>"{fallacy.example}"</p>
-            <p className='text-gray-500 mt-1 text-xs'>— {fallacy.context}</p>
+            <p className='text-muted-foreground mt-1 text-xs'>
+              — {fallacy.context}
+            </p>
           </div>
         </div>
 
@@ -76,7 +78,7 @@ const FallacyDetails: FC<FallacyDetailsProps> = ({
               <h4 className='text-sm sm:text-base font-medium text-amber-700 dark:text-amber-400 mb-0.5'>
                 Почему это опасно:
               </h4>
-              <p className='text-xs sm:text-sm text-gray-700 dark:text-gray-300'>
+              <p className='text-xs sm:text-sm text-card-foreground'>
                 {fallacy.danger}
               </p>
             </div>
@@ -89,7 +91,7 @@ const FallacyDetails: FC<FallacyDetailsProps> = ({
               <h4 className='text-sm sm:text-base font-medium text-green-700 dark:text-green-400 mb-0.5'>
                 Как распознать:
               </h4>
-              <ul className='text-xs sm:text-sm text-gray-700 dark:text-gray-300 space-y-1 list-disc list-inside pl-0.5'>
+              <ul className='text-xs sm:text-sm text-card-foreground space-y-1 list-disc list-inside pl-0.5'>
                 {fallacy.recognitionSteps.slice(0, 2).map((step, idx) => (
                   <li key={idx}>{step}</li>
                 ))}
@@ -99,7 +101,7 @@ const FallacyDetails: FC<FallacyDetailsProps> = ({
         </div>
 
         {/* Кнопки */}
-        <div className='flex justify-between items-center pt-3 mt-3 border-t border-gray-200 dark:border-gray-700'>
+        <div className='flex justify-between items-center pt-3 mt-3 border-t border-border'>
           <Button
             variant='outline'
             size='sm'

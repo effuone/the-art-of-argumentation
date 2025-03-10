@@ -10,6 +10,7 @@ import { fallacyCategories } from '@/data/fallacy-categories';
 import FallacyElement from '@/components/fallacy-element';
 import CategoryLegend from '@/components/category-legend';
 import FallacyDetails from '@/components/fallacy-details';
+import { ModeToggle } from '@/components/mode-toggle';
 
 export default function LogicalFallacyMap() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -33,27 +34,27 @@ export default function LogicalFallacyMap() {
   };
 
   return (
-    <div className='min-h-screen bg-white dark:bg-gray-950'>
+    <div className='min-h-screen bg-background text-foreground'>
       {/* Шапка страницы */}
-      <header className='bg-white dark:bg-gray-900 border-b sticky top-0 z-10'>
+      <header className='bg-card border-b border-border sticky top-0 z-10'>
         <div className='max-w-6xl mx-auto px-4 py-4 sm:px-6 lg:px-8'>
           <div className='flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4'>
             <div className='flex items-center'>
-              <div className='mr-3 bg-blue-600 text-white p-2 rounded-lg'>
+              <div className='mr-3 p-2 rounded-lg'>
                 <span className='text-2xl'>🧠</span>
               </div>
               <div>
-                <h1 className='text-xl font-bold text-gray-900 dark:text-white'>
+                <h1 className='text-xl font-bold text-foreground'>
                   Карта логических ошибок
                 </h1>
-                <p className='text-sm text-gray-500 dark:text-gray-400'>
+                <p className='text-sm text-muted-foreground'>
                   Визуальный справочник по ошибкам в аргументации
                 </p>
               </div>
             </div>
 
             <div className='flex items-center w-full sm:w-auto'>
-              <div className='relative w-full sm:w-64'>
+              <div className='relative w-full sm:w-64 mr-2'>
                 <Input
                   type='text'
                   placeholder='Поиск ошибок...'
@@ -62,9 +63,10 @@ export default function LogicalFallacyMap() {
                   className='pr-10'
                 />
                 <div className='absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none'>
-                  <Search className='h-4 w-4 text-gray-400' />
+                  <Search className='h-4 w-4 text-muted-foreground/60' />
                 </div>
               </div>
+              <ModeToggle />
             </div>
           </div>
         </div>
@@ -73,28 +75,28 @@ export default function LogicalFallacyMap() {
       {/* Основное содержимое */}
       <main className='max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8'>
         {/* Информационный блок */}
-        <div className='mb-8 bg-blue-50 dark:bg-blue-950 rounded-lg p-6'>
+        <div className='mb-8 bg-primary/5 rounded-lg p-6'>
           <div className='flex flex-col md:flex-row gap-6'>
             <div className='md:w-2/3'>
-              <h2 className='text-xl font-semibold text-gray-900 dark:text-white mb-2'>
+              <h2 className='text-xl font-semibold text-foreground mb-2'>
                 Что такое логические ошибки?
               </h2>
-              <p className='text-gray-700 dark:text-gray-300 mb-3'>
+              <p className='text-card-foreground mb-3'>
                 Логические ошибки — это ошибки в рассуждениях, которые делают
                 аргумент некорректным. Они часто используются намеренно в
                 риторике, чтобы ввести собеседника в заблуждение.
               </p>
-              <p className='text-gray-700 dark:text-gray-300'>
+              <p className='text-card-foreground'>
                 Эта интерактивная карта поможет вам распознать и избежать
                 распространенных логических ошибок в повседневных дискуссиях,
                 политических дебатах и критическом мышлении.
               </p>
               <div className='flex items-center mt-4'>
                 <a
-                  href='https://www.youtube.com/watch?v=IAQ_K3RE0wg&t=989s'
+                  href='https://www.youtube.com/watch?v=IAQ_K3RE0wg&t'
                   target='_blank'
                   rel='noopener noreferrer'
-                  className='flex items-center text-blue-600 hover:text-blue-800 mr-6'
+                  className='flex items-center text-primary hover:text-primary/80 mr-6'
                 >
                   <Youtube className='w-5 h-5 mr-1' />
                   <span>
@@ -104,7 +106,7 @@ export default function LogicalFallacyMap() {
               </div>
             </div>
             <div className='md:w-1/3 flex justify-center md:justify-end'>
-              <Badge className='h-fit text-lg py-2 px-4 bg-blue-600 hover:bg-blue-600'>
+              <Badge className='h-fit text-lg py-2 px-4 bg-primary hover:bg-primary'>
                 Всего 67 ошибок
               </Badge>
             </div>
@@ -113,14 +115,14 @@ export default function LogicalFallacyMap() {
 
         {/* Легенда категорий */}
         <div className='mb-4'>
-          <h2 className='text-lg font-medium text-gray-900 dark:text-white mb-3'>
+          <h2 className='text-lg font-medium text-foreground mb-3'>
             Категории логических ошибок
           </h2>
           <CategoryLegend categories={fallacyCategories} />
         </div>
 
         {/* Карта логических ошибок */}
-        <div className='bg-white dark:bg-gray-900 rounded-lg shadow-sm border p-6'>
+        <div className='bg-card border-border border rounded-lg shadow-sm p-6'>
           <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4'>
             {filteredFallacies.map((fallacy, idx) => (
               <FallacyElement
@@ -133,7 +135,7 @@ export default function LogicalFallacyMap() {
 
           {filteredFallacies.length === 0 && (
             <div className='text-center py-8'>
-              <p className='text-gray-500 dark:text-gray-400'>
+              <p className='text-muted-foreground'>
                 Ничего не найдено по запросу "{searchTerm}"
               </p>
             </div>
@@ -141,36 +143,36 @@ export default function LogicalFallacyMap() {
         </div>
 
         {/* Информация об авторах */}
-        <div className='mt-8 pt-6 border-t border-gray-200 dark:border-gray-800'>
+        <div className='mt-8 pt-6 border-t border-border'>
           <div className='flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4'>
             <div>
-              <p className='text-gray-600 dark:text-gray-400'>
+              <p className='text-muted-foreground'>
                 Автор идеи:{' '}
                 <span className='font-medium'>Абдулла Абдуллаев</span> (канал{' '}
                 <a
                   href='https://www.youtube.com/@debateland'
                   target='_blank'
                   rel='noopener noreferrer'
-                  className='text-blue-600 hover:underline'
+                  className='text-primary hover:underline'
                 >
                   Дебатляндия
                 </a>
                 )
               </p>
-              <p className='text-gray-600 dark:text-gray-400 mt-1'>
+              <p className='text-muted-foreground mt-1'>
                 Разработчик:{' '}
                 <a
                   href='https://github.com/alibackend'
                   target='_blank'
                   rel='noopener noreferrer'
-                  className='text-blue-600 hover:underline flex items-center inline-flex'
+                  className='text-primary hover:underline flex items-center inline-flex'
                 >
                   <GithubIcon className='h-4 w-4 mr-1' /> @effuone
                 </a>
               </p>
             </div>
 
-            <div className='text-gray-500 dark:text-gray-400 text-sm'>
+            <div className='text-muted-foreground text-sm'>
               &copy; {new Date().getFullYear()} Все права защищены
             </div>
           </div>
