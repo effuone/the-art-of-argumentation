@@ -7,13 +7,12 @@ interface FallacyElementProps {
   onClick: (fallacy: Fallacy) => void;
 }
 
-// Компонент элемента карты
 const FallacyElement: FC<FallacyElementProps> = ({ fallacy, onClick }) => {
   const category = fallacyCategories.find((cat) => cat.id === fallacy.category);
 
   return (
     <div
-      className='border rounded-md cursor-pointer hover:shadow-md transition hover:scale-105'
+      className='border rounded-md cursor-pointer hover:shadow-md transition hover:scale-105 dark:filter dark:brightness-90'
       style={{ backgroundColor: category?.color }}
       onClick={() => onClick(fallacy)}
     >
