@@ -23,7 +23,7 @@ export default function LogicalFallacyMap() {
       fallacy.latinName.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const handleOpenDetails = (fallacy: any) => {
+  const handleOpenDetails = (fallacy: Fallacy) => {
     setSelectedFallacy(fallacy);
     setIsDetailsOpen(true);
   };

@@ -25,7 +25,7 @@ interface Params {
 export default async function FallacyDetailsPage({
   params,
 }: {
-  params: Params;
+  params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
   const fallacy = fallacies.find((f) => f.slug === slug) || null;
