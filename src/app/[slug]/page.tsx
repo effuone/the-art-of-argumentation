@@ -506,31 +506,43 @@ export default async function FallacyDetailsPage({
       {/* Нижняя навигация */}
       <div className='bg-card border-t border-border py-4'>
         <div className='max-w-4xl mx-auto px-4 sm:px-6 lg:px-8'>
-          <div className='flex justify-between items-center'>
+          <div className='grid grid-cols-2 gap-4'>
             {prevFallacy ? (
-              <Link href={`/${prevFallacy.slug}`}>
+              <Link
+                href={`/${prevFallacy.slug}`}
+                className='block'
+              >
                 <Button
                   variant='outline'
-                  className='flex items-center gap-2'
+                  className='flex items-center gap-1 max-w-full'
                 >
-                  <ArrowLeft className='h-4 w-4' />
-                  {prevFallacy.name}
+                  <ArrowLeft className='h-4 w-4 flex-shrink-0' />
+                  <span className='line-clamp-1 text-sm sm:text-base'>
+                    {prevFallacy.name}
+                  </span>
                 </Button>
               </Link>
             ) : (
               <div></div> // Пустой div для сохранения выравнивания
             )}
 
-            {nextFallacy && (
-              <Link href={`/${nextFallacy.slug}`}>
+            {nextFallacy ? (
+              <Link
+                href={`/${nextFallacy.slug}`}
+                className='block justify-self-end'
+              >
                 <Button
                   variant='outline'
-                  className='flex items-center gap-2'
+                  className='flex items-center gap-1 max-w-full'
                 >
-                  {nextFallacy.name}
-                  <ArrowRight className='h-4 w-4' />
+                  <span className='line-clamp-1 text-sm sm:text-base'>
+                    {nextFallacy.name}
+                  </span>
+                  <ArrowRight className='h-4 w-4 flex-shrink-0' />
                 </Button>
               </Link>
+            ) : (
+              <div></div>
             )}
           </div>
         </div>
