@@ -1,36 +1,32 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Искусство аргументации или как правильно душнить в интернете
 
-## Getting Started
+Посмотрев видос [«67 логических ошибок»](https://www.youtube.com/watch?v=IAQ_K3RE0wg&t), у меня появилось желание создать сайт, куда можно всегда вернуться и быстро посмотреть описание конкретной логической ошибки. Ко всему прочему, пока я делал этот проект, нашел полезный ресурс agentrecipes.com, где можно понять виды различных AI-агентов. Один из воркфлоу, представленных на этом сайте, сильно помог мне в создании проекта.
 
-First, run the development server:
+Логические ошибки — это дефекты в рассуждениях, которые делают аргумент некорректным. Их часто используют в риторике намеренно, чтобы ввести собеседника в заблуждение. Эта карта помогает распознавать такие ловушки в повседневных дискуссиях и дебатах. Поэтому в следующий раз, когда намереваетесь подушнить с кем-то, можете быстро пробежаться глазками по сайту за час заранее.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Как я это сделал
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+В основе наполнения сайта лежит автоматизированный процесс, который я прогнал через Gemini Pro LLM в силу амбального контекста.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+#### Процесс формирования базы данных
 
-## Learn More
+1. **Контекст**: Я взял полный транскрипт видео и скормил его Gemini, чтобы выделить все 67 логических ошибок.
+2. **Agentic Workflow**: Для генерации детальных описаний и примеров я использовал паттерн **Parallelization** с сайта agentrecipes.com. Этот воркфлоу позволяет запускать задачи параллельно на множество вызовов LLM одновременно. 
+3. **Структурирование**: Итоговый выхлоп я сохранил в JSONку, который потом переделал в обычный JS-массив.
 
-To learn more about Next.js, take a look at the following resources:
+#### Техническая часть
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Проект работает без бэка. Все данные, которыми питается сайт, лежат здесь:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+* `src/data/fallacies.ts` — основной массив со всеми описаниями.
+* `src/data/fallacy-categories.ts` — структура категорий.
 
-## Deploy on Vercel
+Сам фронт был люто завайбкоден: тупо написал `npx create-next-app` и с голого NextJS проекта показал Cursor'у данные и сказал что нужно красиво отобразить. Ушло минут 30 или час максимум
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Планы на будущее
+
+Если будет время и желание, думал добавить функцию чата. Туда можно будет закинуть черновик своей речи для дебатов, а система подсветит конкретные части текста, где она обнаружила логическую ошибку, и подскажет, как это исправить или улучшить. Если кому-то не похер, то можете, в принципе, сами PRку отправить с вашим бэком - смело приму
